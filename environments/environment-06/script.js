@@ -51,11 +51,12 @@ function showBasket() {
               </td>
               <td>${productAndAmount.product.name}</td>
               <td>${productAndAmount.product.price},-</td>
-              <td>PRIS I ALT,-</td>
+              <td>${productAndAmount.amount * productAndAmount.product.price},-</td>
             </tr>
             `;
     document.querySelector("#basket tbody").insertAdjacentHTML("beforeend", basketHTML);
     document.querySelector("#basket tr:last-child .remove").addEventListener("click", () => removeFromBasketClicked(productAndAmount.product));
+    document.querySelector("#basket tr:last-child .add").addEventListener("click", () => addToBasketClicked(productAndAmount.product));
   }
 }
 function removeFromBasketClicked(product) {
