@@ -29,20 +29,43 @@ function showProducts() {
   }
 }
 function addToBasketClicked(product) {
-  basket.push(product);
+  const productAndAmount = { product: product, amount: 1 };
+  const productExists = basket.find((productAndAmount) => productAndAmount.product === product);
+  if (productExists) {
+    productExists.amount++;
+  } else {
+    basket.push(productAndAmount);
+  }
   console.log(basket);
   showBasket();
 }
 function showBasket() {
-  document.querySelector("#basket").innerHTML = "";
-  for (const product of basket) {
+  document.querySelector("#basket tbody").innerHTML = "";
+  for (const productAndAmount of basket) {
     let basketHTML = /*html*/ `
         <tr>
-              <td>${product.name}</td>
-              <td>${product.weight}g</td>
-              <td>${product.price},-</td>
-     </tr>
-        `;
-    document.querySelector("#basket").insertAdjacentHTML("beforeend", basketHTML);
+              <td>
+                <button class="remove">-</button>
+                  ${productAndAmount.amount}
+                <button class="add">+</button>
+              </td>
+              <td>${productAndAmount.product.name}</td>
+              <td>${productAndAmount.product.price},-</td>
+              <td>PRIS I ALT,-</td>
+            </tr>
+            `;
+    document.querySelector("#basket tbody").insertAdjacentHTML("beforeend", basketHTML);
+    document.querySelector("#basket tr:last-child .remove").addEventListener("click", () => removeFromBasketClicked(productAndAmount.product));
   }
+}
+function removeFromBasketClicked(product) {
+  const productExists = basket.find((productAndAmount) => productAndAmount.product === product);
+  if (productExists) {
+    productExists.amount--;
+    if (productExists.amount === 0) {
+      let currentProduct = basket.indexOf(productExists);
+      basket.splice(currentProduct, 1);
+    }
+  }
+  showBasket();
 }
