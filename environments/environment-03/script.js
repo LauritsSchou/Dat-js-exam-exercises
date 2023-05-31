@@ -34,7 +34,6 @@ function addNewProduct(name, price, inStock) {
   showProducts();
 }
 function addNewProductClicked(event) {
-  console.log("clicked");
   event.preventDefault();
   const form = event.target;
   const name = form.name.value;
